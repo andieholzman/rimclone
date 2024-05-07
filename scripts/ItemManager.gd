@@ -24,6 +24,7 @@ func _ready():
 	for i in range(len(weaponPrototypes)):
 		SpawnItem(weaponPrototypes[i],Vector2i(count*16,count*16));
 		count = count+1;
+		
 	pass
 
 func _process(delta):
@@ -47,27 +48,46 @@ func LoadResources(path:String, arr:Array):
 		print("error opening dir: " + path);
 
 func SpawnItem(item, mapPosition):
-	print("spawning item: " + str(item) + " at location: " + str(mapPosition));
+
 	var newItem = item.instantiate();
 	
 	# function below will return True if the object contains a script that has the Type/Class Name of Food
-	var newItemIsFood = is_instance_of_string(newItem,"Food");
-	print("isItemFood: " + str(newItemIsFood));
+	var newItemIsFood = IsItemOfType(newItem,"Food");
+
 	add_child(newItem);
 	itemsInWorld.append(newItem);
 	newItem.position = MapToWorldPosition(mapPosition.x, mapPosition.y);
 	
-func FindNearestItem(itemCategory:ItemCategory):
-	pass;
+func FindNearestItem(itemCategory:String, worldPosition: Vector2):
+	if (len(itemsInWorld) == 0):
+		return false;
+	
+	var nearestItem = null;
+	var nearestDistance = 99999;
+	print("Find Nearest Instance of: " + itemCategory)
+	
+	for item in itemsInWorld:
+		if (IsItemOfType(item,itemCategory)):
+			var distance = worldPosition.distance_to(item.position);
+			
+			if (nearestItem == null):
+				nearestItem = item;
+				nearestDistance = distance;
+				continue;
+			
+			if (distance < nearestDistance):
+				nearestItem = item
+				nearestDistance = distance;
+	return nearestItem;
 
 
 func MapToWorldPosition(mapPosX:int, mapPosY:int) -> Vector2:
 	return Vector2(mapPosX*16+8, mapPosY*16+8);
 	
 	
-	
+
 # https://stackoverflow.com/a/77951914
-static func is_instance_of_string(obj : Object, given_class_name : String) -> bool:
+static func IsItemOfType(obj : Object, given_class_name : String) -> bool:
 	if ClassDB.class_exists(given_class_name):
 		# We have a build in class
 		return obj.is_class(given_class_name)

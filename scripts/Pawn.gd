@@ -2,6 +2,7 @@ extends CharacterBody2D
 @onready var tile_map = $"../TileMap"
 @onready var pathfinding = $"../Pathfinding"
 @onready var camera_2d = %Camera2D
+@onready var item_manager = $"../ItemManager"
 
 
 const SPEED = 200.0;
@@ -17,6 +18,13 @@ func _physics_process(delta):
 		var pos = position	/ worldSizeOffset;
 		var mousePos = get_global_mouse_position() / worldSizeOffset
 		var targetPos = Vector2(round(mousePos.x),round(mousePos.y));
+		print("Curr: " + str(pos) + "| Goal: " + str(targetPos));
+		path = pathfinding.RequestPath(pos,targetPos);
+		
+	if Input.is_action_just_pressed("ui_accept"):
+		var pos = position	/ worldSizeOffset;
+		var targetPos = item_manager.FindNearestItem("Food",position).position / worldSizeOffset;
+		
 		print("Curr: " + str(pos) + "| Goal: " + str(targetPos));
 		path = pathfinding.RequestPath(pos,targetPos);
 
