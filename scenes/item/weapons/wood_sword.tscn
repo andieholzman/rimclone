@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://dm84l3txiapda"]
+
+[ext_resource type="Texture2D" uid="uid://e0p2bn6y63uq" path="res://assets/object_tiles.png" id="1_8ycy3"]
+[ext_resource type="Script" path="res://scripts/Items/Weapon.gd" id="2_1tj4h"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_luqii"]
+atlas = ExtResource("1_8ycy3")
+region = Rect2(16, 32, 16, 16)
+
+[node name="WoodSword" type="Sprite2D"]
+texture = SubResource("AtlasTexture_luqii")
+script = ExtResource("2_1tj4h")
+weaponQuality = 1

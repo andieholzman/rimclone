@@ -1,0 +1,1 @@
+Rimworld-style clone made with Godot based on the ongoing tutorial series by Real Robots found here: https://www.youtube.com/playlist?list=PLOb5IPYDOceDIeNvojEYIUeHbHTZShtc-
